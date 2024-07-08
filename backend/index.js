@@ -28,6 +28,7 @@ const resultSchema = mongoose.Schema({
     school: String, //3
     marks: Number,
     qualified: Boolean,
+    omr: String,
 });
 
 const User = mongoose.model('User', userSchema, 'User');

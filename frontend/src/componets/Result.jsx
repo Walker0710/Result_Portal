@@ -28,6 +28,12 @@ const Result = () => {
       <p>School Name: {result.school}</p>
       <p>Marks Obtained: {result.marks}</p>
       <p>Qualified for Second Round: {result.qualified ? 'Yes' : 'No'}</p>
+      {result.omr && (
+        <div>
+          <h2>OMR Sheet</h2>
+          <img src={result.omr} alt="OMR" style={{width: '100%', maxWidth: '600px'}}/>
+        </div>
+      )}
     </div>
   );
 };
