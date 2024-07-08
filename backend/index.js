@@ -12,7 +12,7 @@ const JWT_SECRET = 'ELAN25';
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://Walker0710:ankush007alan@justfortest.ocqjlhg.mongodb.net/?retryWrites=true&w=majority&appName=JustForTest', {
+mongoose.connect('mongodb+srv://Walker0710:ankush007alan@justfortest.ocqjlhg.mongodb.net/Result_Portal?retryWrites=true&w=majority&appName=JustForTest', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -30,8 +30,8 @@ const resultSchema = mongoose.Schema({
     qualified: Boolean,
 });
 
-const User = mongoose.model('User', userSchema);
-const Result = mongoose.model('Result', resultSchema);
+const User = mongoose.model('User', userSchema, 'User');
+const Result = mongoose.model('Result', resultSchema, 'Result');
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -48,8 +48,10 @@ const authenticateToken = (req, res, next) => {
 // Routes
 app.post('/login', async (req, res) => {
     const { rollNumber, password } = req.body;
-    const user = await User.findOne({ rollNumber });
-    if (user && password == user.password) {
+    console.log(rollNumber, password);
+    const user = await User.findOne({ rollNumber:rollNumber });
+    console.log(user);
+    if (user && password === user.password) {
         const token = jwt.sign({ rollNumber: user.rollNumber }, JWT_SECRET, { expiresIn: '1h' });
         res.json({ token });
     } else {

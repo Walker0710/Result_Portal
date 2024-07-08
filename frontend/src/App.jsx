@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' exact element={<Login />} />
-          <Route path='/services' element={<Result />} />
+          <Route path='/result' element={<Result />} />
         </Routes>
       </Router>
     </>

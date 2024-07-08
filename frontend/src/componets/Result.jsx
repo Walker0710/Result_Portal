@@ -24,9 +24,9 @@ const Result = () => {
   return (
     <div>
       <h1>Result</h1>
-      <p>Student Name: {result.studentName}</p>
-      <p>School Name: {result.schoolName}</p>
-      <p>Marks Obtained: {result.marksObtained}</p>
+      <p>Student Name: {result.name}</p>
+      <p>School Name: {result.school}</p>
+      <p>Marks Obtained: {result.marks}</p>
       <p>Qualified for Second Round: {result.qualified ? 'Yes' : 'No'}</p>
     </div>
   );
