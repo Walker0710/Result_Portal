@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const axios = require('axios');
 
 const app = express();
 const PORT = 5000;
@@ -50,7 +51,7 @@ const authenticateToken = (req, res, next) => {
 app.post('/login', async (req, res) => {
     const { rollNumber, password } = req.body;
     console.log(rollNumber, password);
-    const user = await User.findOne({ rollNumber:rollNumber });
+    const user = await User.findOne({ rollNumber: rollNumber });
     console.log(user);
     if (user && password === user.password) {
         const token = jwt.sign({ rollNumber: user.rollNumber }, JWT_SECRET, { expiresIn: '1h' });
@@ -60,9 +61,24 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// app.get('/result', authenticateToken, async (req, res) => {
+//     const result = await Result.findOne({ rollNumber: req.user.rollNumber });
+//     if (result) {
+//         res.json(result);
+//     }
+//     else {
+//         res.status(404).json({ message: 'Result not found' });
+//     }
+// });
+
 app.get('/result', authenticateToken, async (req, res) => {
     const result = await Result.findOne({ rollNumber: req.user.rollNumber });
     if (result) {
+        const imageUrl= result.omr;
+        const response=await axios.get(imageUrl, {responseType: 'arraybuffer'});
+        const buffer=Buffer.from(response.data, 'binary').toString('base64');
+        result.omr=`data:${response.headers['content-type']};base64,${buffer}`;
+        // console.log(result.omr);
         res.json(result);
     } else {
         res.status(404).json({ message: 'Result not found' });
