@@ -61,15 +61,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// app.get('/result', authenticateToken, async (req, res) => {
-//     const result = await Result.findOne({ rollNumber: req.user.rollNumber });
-//     if (result) {
-//         res.json(result);
-//     }
-//     else {
-//         res.status(404).json({ message: 'Result not found' });
-//     }
-// });
 
 app.get('/result', authenticateToken, async (req, res) => {
     const result = await Result.findOne({ rollNumber: req.user.rollNumber });
